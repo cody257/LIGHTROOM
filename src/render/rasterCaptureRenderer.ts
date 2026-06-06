@@ -14,7 +14,7 @@ export class RasterCaptureRenderer implements CaptureRenderer {
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
     renderer.setSize(width, height, false);
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.VSMShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = exposureMultiplier(rig.camera.exposure);
 
@@ -33,12 +33,13 @@ export class RasterCaptureRenderer implements CaptureRenderer {
 
     for (const light of rig.lights) {
       const p = buildLightProps(light);
+      const penumbra = Math.min(1, p.softness);
       const spot = new THREE.SpotLight(
         new THREE.Color(p.color[0], p.color[1], p.color[2]),
         p.intensity,
         0,
         Math.PI / 4,
-        0.6,
+        penumbra,
         2
       );
       spot.position.set(p.position[0], p.position[1], p.position[2]);
@@ -47,8 +48,9 @@ export class RasterCaptureRenderer implements CaptureRenderer {
       spot.shadow.mapSize.set(2048, 2048);
       spot.shadow.camera.near = 0.1;
       spot.shadow.camera.far = 20;
-      // Penumbra scales with apparent source size -> softer modifier = softer shadow edge.
-      spot.shadow.radius = Math.max(1, p.softness * 18);
+      spot.shadow.bias = -0.0004;
+      spot.shadow.radius = 1 + p.softness * 14;
+      spot.shadow.blurSamples = 16;
       scene.add(spot);
       scene.add(spot.target);
     }
