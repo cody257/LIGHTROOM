@@ -1,0 +1,22 @@
+# Brainstorm companion scratch (visual mockups + server state)
+.superpowers/
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+.vite/
+
+# Logs and env
+*.log
+.env
+.env.*
+!.env.example
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
