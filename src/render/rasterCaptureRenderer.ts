@@ -66,6 +66,7 @@ export class RasterCaptureRenderer implements CaptureRenderer {
     renderer.render(scene, cam);
     const url = canvas.toDataURL('image/png');
     renderer.dispose();
+    renderer.forceContextLoss();
     return url;
   }
 }
