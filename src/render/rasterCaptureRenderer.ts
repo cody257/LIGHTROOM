@@ -3,7 +3,7 @@ import type { Rig } from '../domain/types';
 import type { CaptureRenderer } from './CaptureRenderer';
 import { buildLightProps, SUBJECT_HEAD_Y } from '../domain/lightProps';
 import { exposureMultiplier } from '../domain/exposure';
-import { buildBlockoutHead } from '../subject/blockoutHead';
+import { loadSubjectHead } from '../subject/loadSubject';
 
 export class RasterCaptureRenderer implements CaptureRenderer {
   async render(rig: Rig, width = 768, height = 1024): Promise<string> {
@@ -29,7 +29,7 @@ export class RasterCaptureRenderer implements CaptureRenderer {
     floor.receiveShadow = true;
     scene.add(floor);
 
-    scene.add(buildBlockoutHead());
+    scene.add(await loadSubjectHead());
 
     for (const light of rig.lights) {
       const p = buildLightProps(light);
