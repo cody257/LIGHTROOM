@@ -26,6 +26,10 @@ describe('rigStore', () => {
     useRig.getState().setExposure(-1.5);
     expect(useRig.getState().rig.camera.exposure).toBe(-1.5);
   });
+  it('setSubjectModel swaps the subject model', () => {
+    useRig.getState().setSubjectModel('blob:abc');
+    expect(useRig.getState().rig.subject.model).toBe('blob:abc');
+  });
   it('removeLight removes and clears selection', () => {
     const id = useRig.getState().rig.lights[0].id;
     useRig.getState().selectLight(id);

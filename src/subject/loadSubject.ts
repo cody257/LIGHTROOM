@@ -3,24 +3,29 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { SUBJECT_HEAD_Y } from '../domain/lightProps';
 import { fitHeadTransform } from './headTransform';
 import { buildBlockoutHead } from './blockoutHead';
-
-const SUBJECT_URL = '/models/LeePerrySmith.glb';
+import { GENERIC_HEAD, resolveModelUrl } from './subjectSource';
 
 // Tunable: controller will fine-tune by eye after visual verification
 const TARGET_HEIGHT = 0.32; // metres
 
 const SKIN = new THREE.MeshStandardMaterial({ color: 0xc9b29c, roughness: 0.62, metalness: 0 });
 
-let cache: Promise<THREE.Object3D> | null = null;
+const cache = new Map<string, Promise<THREE.Object3D>>();
 
-export function loadSubjectHead(): Promise<THREE.Object3D> {
-  if (!cache) cache = build();
-  return cache;
+/** Load a subject head by model key ('genericHead') or URL (e.g. an uploaded object URL). */
+export function loadSubjectHead(model: string = GENERIC_HEAD): Promise<THREE.Object3D> {
+  const url = resolveModelUrl(model);
+  let entry = cache.get(url);
+  if (!entry) {
+    entry = build(url);
+    cache.set(url, entry);
+  }
+  return entry;
 }
 
-async function build(): Promise<THREE.Object3D> {
+async function build(url: string): Promise<THREE.Object3D> {
   try {
-    const gltf = await new GLTFLoader().loadAsync(SUBJECT_URL);
+    const gltf = await new GLTFLoader().loadAsync(url);
     const root = gltf.scene;
     root.traverse((o) => {
       const m = o as THREE.Mesh;
