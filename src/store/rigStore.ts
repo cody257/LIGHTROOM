@@ -11,6 +11,7 @@ interface RigState {
   updateLight: (id: string, patch: Partial<Light>) => void;
   removeLight: (id: string) => void;
   selectLight: (id: string | null) => void;
+  setLights: (lights: Light[]) => void;
   setExposure: (ev: number) => void;
 }
 
@@ -33,5 +34,7 @@ export const useRig = create<RigState>((set) => ({
       selectedLightId: s.selectedLightId === id ? null : s.selectedLightId,
     })),
   selectLight: (id) => set({ selectedLightId: id }),
+  setLights: (lights) =>
+    set((s) => ({ rig: { ...s.rig, lights }, selectedLightId: lights[0]?.id ?? null })),
   setExposure: (ev) => set((s) => ({ rig: { ...s.rig, camera: { ...s.rig.camera, exposure: ev } } })),
 }));

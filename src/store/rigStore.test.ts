@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { useRig, MAX_LIGHTS } from './rigStore';
-import { makeDefaultRig } from './defaults';
+import { makeDefaultRig, makeLight } from './defaults';
 
 beforeEach(() => useRig.setState({ rig: makeDefaultRig(), selectedLightId: null }));
 
@@ -32,5 +32,13 @@ describe('rigStore', () => {
     useRig.getState().removeLight(id);
     expect(useRig.getState().rig.lights).toHaveLength(0);
     expect(useRig.getState().selectedLightId).toBeNull();
+  });
+  it('setLights replaces the lights and selects the first', () => {
+    const next = [makeLight({ angleDeg: 10 }), makeLight({ angleDeg: 20 })];
+    useRig.getState().setLights(next);
+    const lights = useRig.getState().rig.lights;
+    expect(lights).toHaveLength(2);
+    expect(lights[0].angleDeg).toBe(10);
+    expect(useRig.getState().selectedLightId).toBe(lights[0].id);
   });
 });
