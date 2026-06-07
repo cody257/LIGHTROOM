@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { PlanView } from './diagram/PlanView';
 import { LightProperties } from './panels/LightProperties';
 import { useRig } from './store/rigStore';
-import { RasterCaptureRenderer } from './render/rasterCaptureRenderer';
+import { createCaptureRenderer } from './render/createCaptureRenderer';
 
-const renderer = new RasterCaptureRenderer();
+const renderer = createCaptureRenderer();
 
 export function App() {
   const [photo, setPhoto] = useState<string | null>(null);
