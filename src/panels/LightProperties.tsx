@@ -26,6 +26,12 @@ export function LightProperties() {
                    style={{ width: '100%' }} />
           </label>
           <label style={pill}>
+            Tilt: {light.tiltDeg.toFixed(0)}°
+            <input type="range" min={-60} max={60} step={1} value={light.tiltDeg}
+                   onChange={(e) => updateLight(light.id, { tiltDeg: parseInt(e.target.value) })}
+                   style={{ width: '100%' }} />
+          </label>
+          <label style={pill}>
             Power: {light.power.toFixed(2)}
             <input type="range" min={0} max={3} step={0.05} value={light.power}
                    onChange={(e) => updateLight(light.id, { power: parseFloat(e.target.value) })}
