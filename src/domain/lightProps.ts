@@ -1,6 +1,6 @@
 import type { Light } from './types';
 import { kelvinToRgb } from './color';
-import { modifierSoftness } from './optics';
+import { effectiveSoftness, beamSpreadDeg } from './optics';
 
 export const SUBJECT_HEAD_Y = 1.5;
 export const BASE_INTENSITY = 3;
@@ -11,6 +11,7 @@ export interface LightProps {
   color: [number, number, number]; // 0..1
   intensity: number;
   softness: number;
+  spreadDeg: number; // beam cone half-angle in degrees
 }
 
 export function buildLightProps(light: Light, headY = SUBJECT_HEAD_Y): LightProps {
@@ -23,6 +24,7 @@ export function buildLightProps(light: Light, headY = SUBJECT_HEAD_Y): LightProp
     target: [0, headY, 0],
     color: [r / 255, g / 255, b / 255],
     intensity: light.power * BASE_INTENSITY,
-    softness: modifierSoftness(light),
+    softness: effectiveSoftness(light),
+    spreadDeg: beamSpreadDeg(light),
   };
 }
