@@ -12,6 +12,7 @@ interface RigState {
   removeLight: (id: string) => void;
   selectLight: (id: string | null) => void;
   setExposure: (ev: number) => void;
+  setSubjectModel: (model: string) => void;
 }
 
 export const useRig = create<RigState>((set) => ({
@@ -34,4 +35,6 @@ export const useRig = create<RigState>((set) => ({
     })),
   selectLight: (id) => set({ selectedLightId: id }),
   setExposure: (ev) => set((s) => ({ rig: { ...s.rig, camera: { ...s.rig.camera, exposure: ev } } })),
+  setSubjectModel: (model) =>
+    set((s) => ({ rig: { ...s.rig, subject: { ...s.rig.subject, model } } })),
 }));

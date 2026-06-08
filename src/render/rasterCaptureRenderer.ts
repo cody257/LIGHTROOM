@@ -29,7 +29,7 @@ export class RasterCaptureRenderer implements CaptureRenderer {
     floor.receiveShadow = true;
     scene.add(floor);
 
-    scene.add(await loadSubjectHead());
+    scene.add(await loadSubjectHead(rig.subject.model));
 
     for (const light of rig.lights) {
       const p = buildLightProps(light);
