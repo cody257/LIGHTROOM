@@ -34,4 +34,10 @@ describe('buildLightProps', () => {
     const softbox = buildLightProps({ ...base, modifier: 'softbox' });
     expect(snoot.softness).toBeLessThan(softbox.softness);
   });
+  it('positive tilt aims above the head, negative tilt below', () => {
+    const up = buildLightProps({ ...base, tiltDeg: 30 });
+    const down = buildLightProps({ ...base, tiltDeg: -30 });
+    expect(up.target[1]).toBeGreaterThan(SUBJECT_HEAD_Y);
+    expect(down.target[1]).toBeLessThan(SUBJECT_HEAD_Y);
+  });
 });
