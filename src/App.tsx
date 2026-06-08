@@ -3,11 +3,11 @@ import { PlanView } from './diagram/PlanView';
 import { ElevationView } from './diagram/ElevationView';
 import { LightProperties } from './panels/LightProperties';
 import { useRig } from './store/rigStore';
-import { RasterCaptureRenderer } from './render/rasterCaptureRenderer';
+import { createCaptureRenderer } from './render/createCaptureRenderer';
 import { PRESETS } from './presets/presets';
 import { GENERIC_HEAD, isAllowedSubjectFile } from './subject/subjectSource';
 
-const renderer = new RasterCaptureRenderer();
+const renderer = createCaptureRenderer();
 
 interface Capture { id: string; url: string; }
 
