@@ -20,9 +20,32 @@ export function LightProperties() {
         <>
           <div style={{ fontWeight: 600, margin: '12px 0 4px' }}>Selected light</div>
           <label style={pill}>
+            Size: {light.modifierSizeCm} cm
+            <input type="range" min={20} max={200} step={5} value={light.modifierSizeCm}
+                   onChange={(e) => updateLight(light.id, { modifierSizeCm: parseInt(e.target.value) })}
+                   style={{ width: '100%' }} />
+          </label>
+          <label style={pill}>
+            Feather: {Math.round((light.feather ?? 0) * 100)}%
+            <input type="range" min={0} max={1} step={0.05} value={light.feather ?? 0}
+                   onChange={(e) => updateLight(light.id, { feather: parseFloat(e.target.value) })}
+                   style={{ width: '100%' }} />
+          </label>
+          <label style={{ ...pill, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <input type="checkbox" checked={light.grid ?? false}
+                   onChange={(e) => updateLight(light.id, { grid: e.target.checked })} />
+            Grid (restrict spill)
+          </label>
+          <label style={pill}>
             Height: {light.heightM.toFixed(2)} m
             <input type="range" min={0.2} max={3} step={0.05} value={light.heightM}
                    onChange={(e) => updateLight(light.id, { heightM: parseFloat(e.target.value) })}
+                   style={{ width: '100%' }} />
+          </label>
+          <label style={pill}>
+            Tilt: {light.tiltDeg.toFixed(0)}°
+            <input type="range" min={-60} max={60} step={1} value={light.tiltDeg}
+                   onChange={(e) => updateLight(light.id, { tiltDeg: parseInt(e.target.value) })}
                    style={{ width: '100%' }} />
           </label>
           <label style={pill}>
@@ -35,12 +58,6 @@ export function LightProperties() {
             Colour: {light.kelvin} K
             <input type="range" min={2000} max={9000} step={100} value={light.kelvin}
                    onChange={(e) => updateLight(light.id, { kelvin: parseInt(e.target.value) })}
-                   style={{ width: '100%' }} />
-          </label>
-          <label style={pill}>
-            Modifier size: {light.modifierSizeCm} cm
-            <input type="range" min={20} max={200} step={5} value={light.modifierSizeCm}
-                   onChange={(e) => updateLight(light.id, { modifierSizeCm: parseInt(e.target.value) })}
                    style={{ width: '100%' }} />
           </label>
         </>
