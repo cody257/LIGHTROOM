@@ -18,6 +18,7 @@ export function App() {
   const [subjectError, setSubjectError] = useState<string | null>(null);
   const seq = useRef(0);
   const setLights = useRig((s) => s.setLights);
+  const resetRig = useRig((s) => s.resetRig);
   const subjectModel = useRig((s) => s.rig.subject.model);
   const setSubjectModel = useRig((s) => s.setSubjectModel);
 
@@ -60,10 +61,14 @@ export function App() {
         <PlanView />
         <div style={{ fontSize: 11, color: '#9aa0a6', margin: '12px 0 4px' }}>Elevation (side)</div>
         <ElevationView />
-        <div style={{ marginTop: 12 }}>
+        <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
           <button onClick={capture} disabled={busy}
                   style={{ padding: '10px 18px', fontSize: 15, cursor: 'pointer' }}>
             {busy ? 'Rendering…' : '📷 Capture'}
+          </button>
+          <button onClick={resetRig} title="Restore the default lighting (keeps your subject)"
+                  style={{ padding: '10px 18px', fontSize: 15, cursor: 'pointer' }}>
+            ↺ Reset
           </button>
         </div>
         <div style={{ marginTop: 14 }}>

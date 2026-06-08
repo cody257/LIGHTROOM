@@ -45,4 +45,17 @@ describe('rigStore', () => {
     expect(lights[0].angleDeg).toBe(10);
     expect(useRig.getState().selectedLightId).toBe(lights[0].id);
   });
+  it('resetRig restores default lights + exposure and clears selection, but keeps the subject', () => {
+    const s = useRig.getState();
+    s.setSubjectModel('blob:keep');
+    s.setExposure(3);
+    s.addLight();
+    s.selectLight(useRig.getState().rig.lights[0].id);
+    useRig.getState().resetRig();
+    const after = useRig.getState();
+    expect(after.rig.lights).toHaveLength(1);
+    expect(after.rig.camera.exposure).toBe(0);
+    expect(after.rig.subject.model).toBe('blob:keep');
+    expect(after.selectedLightId).toBeNull();
+  });
 });

@@ -1,20 +1,6 @@
 import { useRig } from '../store/rigStore';
-import type { Modifier } from '../domain/types';
 
 const pill: React.CSSProperties = { display: 'block', margin: '8px 0', fontSize: 13 };
-
-const MODIFIERS: { value: Modifier; label: string }[] = [
-  { value: 'octa', label: 'Octabox' },
-  { value: 'softbox', label: 'Softbox' },
-  { value: 'strip', label: 'Strip box' },
-  { value: 'umbrellaWhite', label: 'Umbrella (shoot-through)' },
-  { value: 'umbrellaSilver', label: 'Umbrella (silver)' },
-  { value: 'beautyDish', label: 'Beauty dish' },
-  { value: 'parabolic', label: 'Parabolic' },
-  { value: 'fresnel', label: 'Fresnel' },
-  { value: 'bare', label: 'Bare reflector' },
-  { value: 'snoot', label: 'Snoot' },
-];
 
 export function LightProperties() {
   const rig = useRig((s) => s.rig);
@@ -34,15 +20,7 @@ export function LightProperties() {
         <>
           <div style={{ fontWeight: 600, margin: '12px 0 4px' }}>Selected light</div>
           <label style={pill}>
-            Modifier
-            <select value={light.modifier}
-                    onChange={(e) => updateLight(light.id, { modifier: e.target.value as Modifier })}
-                    style={{ width: '100%' }}>
-              {MODIFIERS.map((m) => <option key={m.value} value={m.value}>{m.label}</option>)}
-            </select>
-          </label>
-          <label style={pill}>
-            Modifier size: {light.modifierSizeCm} cm
+            Size: {light.modifierSizeCm} cm
             <input type="range" min={20} max={200} step={5} value={light.modifierSizeCm}
                    onChange={(e) => updateLight(light.id, { modifierSizeCm: parseInt(e.target.value) })}
                    style={{ width: '100%' }} />
