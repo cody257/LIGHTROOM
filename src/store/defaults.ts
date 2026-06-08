@@ -9,6 +9,8 @@ export function makeLight(partial: Partial<Light> = {}): Light {
     role: 'key',
     modifier: 'octa',
     modifierSizeCm: 90,
+    feather: 0,
+    grid: false,
     angleDeg: 45,
     distanceM: 1.5,
     heightM: 1.7,

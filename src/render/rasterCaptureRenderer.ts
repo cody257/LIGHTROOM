@@ -29,16 +29,17 @@ export class RasterCaptureRenderer implements CaptureRenderer {
     floor.receiveShadow = true;
     scene.add(floor);
 
-    scene.add(await loadSubjectHead());
+    scene.add(await loadSubjectHead(rig.subject.model));
 
     for (const light of rig.lights) {
       const p = buildLightProps(light);
       const penumbra = Math.min(1, p.softness);
+      const coneAngle = (p.spreadDeg * Math.PI) / 180;
       const spot = new THREE.SpotLight(
         new THREE.Color(p.color[0], p.color[1], p.color[2]),
         p.intensity,
         0,
-        Math.PI / 4,
+        coneAngle,
         penumbra,
         2
       );

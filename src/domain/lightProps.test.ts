@@ -24,4 +24,20 @@ describe('buildLightProps', () => {
     expect(p.target).toEqual([0, SUBJECT_HEAD_Y, 0]);
     for (const c of p.color) { expect(c).toBeGreaterThanOrEqual(0); expect(c).toBeLessThanOrEqual(1); }
   });
+  it('exposes the modifier beam spread; a snoot is tighter than a softbox', () => {
+    const snoot = buildLightProps({ ...base, modifier: 'snoot' });
+    const softbox = buildLightProps({ ...base, modifier: 'softbox' });
+    expect(snoot.spreadDeg).toBeLessThan(softbox.spreadDeg);
+  });
+  it('softness reflects the modifier type; a snoot is harder than a softbox', () => {
+    const snoot = buildLightProps({ ...base, modifier: 'snoot' });
+    const softbox = buildLightProps({ ...base, modifier: 'softbox' });
+    expect(snoot.softness).toBeLessThan(softbox.softness);
+  });
+  it('positive tilt aims above the head, negative tilt below', () => {
+    const up = buildLightProps({ ...base, tiltDeg: 30 });
+    const down = buildLightProps({ ...base, tiltDeg: -30 });
+    expect(up.target[1]).toBeGreaterThan(SUBJECT_HEAD_Y);
+    expect(down.target[1]).toBeLessThan(SUBJECT_HEAD_Y);
+  });
 });
