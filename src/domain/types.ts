@@ -9,6 +9,8 @@ export interface Light {
   role: LightRole;
   modifier: Modifier;
   modifierSizeCm: number;  // largest dimension of the modifier, cm
+  feather?: number;        // 0..1 edge feathering; opens up the falloff. default 0
+  grid?: boolean;          // egg-crate grid; restricts spill and tightens the beam. default false
   angleDeg: number;        // azimuth around subject; 0 = on the camera axis (front), CCW in plan view
   distanceM: number;       // metres from subject
   heightM: number;         // metres above the floor
